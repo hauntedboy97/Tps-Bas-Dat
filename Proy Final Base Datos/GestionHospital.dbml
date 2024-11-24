@@ -1,0 +1,26 @@
+
+Table Pacientes {
+    paciente_id int [pk, increment] // ID único de cada paciente
+    nombre varchar(100) [not null] // Nombre del paciente
+    direccion varchar(150) [not null] // Dirección del paciente
+    telefono varchar(15) [not null] // Teléfono del paciente
+    fecha_nacimiento date [not null] // Fecha de nacimiento del paciente
+}
+
+Table Medicos {
+    medico_id int [pk, increment] // ID único de cada médico
+    nombre varchar(100) [not null] // Nombre del médico
+    especialidad varchar(50) [not null] // Especialidad del médico
+    telefono varchar(15) [not null] // Teléfono del médico
+}
+
+Table Turnos {
+    turno_id int [pk, increment] // ID único de cada turno
+    paciente_id int [not null, ref: > Pacientes.paciente_id] // Referencia al paciente
+    medico_id int [not null, ref: > Medicos.medico_id] // Referencia al médico
+    fecha date [not null] // Fecha del turno
+    horario time [not null] // Hora del turno
+}
+
+Ref: Turnos.paciente_id > Pacientes.paciente_id
+Ref: Turnos.medico_id > Medicos.medico_id
