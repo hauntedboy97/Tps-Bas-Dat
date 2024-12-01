@@ -1,4 +1,3 @@
-
 -- Sistema de Gestión de Hospital
 
 -- Creación de la base de datos
@@ -7,8 +6,8 @@ USE GestionHospital;
 
 -- Tabla de Pacientes
 CREATE TABLE Pacientes (
-    paciente_id INT AUTO_INCREMENT PRIMARY KEY,
-    nombreyapellido VARCHAR(100) NOT NULL,
+    paciente_id INT PRIMARY KEY,
+    pa_nombreyapellido VARCHAR(100) NOT NULL,
     direccion VARCHAR(150) NOT NULL,
     telefono VARCHAR(15) NOT NULL,
     fecha_nacimiento DATE NOT NULL
@@ -16,58 +15,152 @@ CREATE TABLE Pacientes (
 
 -- Tabla de Médicos
 CREATE TABLE Medicos (
-    medico_id INT AUTO_INCREMENT PRIMARY KEY,
-    nombreyapellido VARCHAR(100) NOT NULL,
+    medico_id INTEGER PRIMARY KEY,
+    me_nombreyapellido VARCHAR(100) NOT NULL,
     especialidad VARCHAR(50) NOT NULL,
     telefono VARCHAR(15) NOT NULL
 );
 
 -- Tabla de Turnos
 CREATE TABLE Turnos (
-    turno_id INT AUTO_INCREMENT PRIMARY KEY,
+    turno_id INT PRIMARY KEY,
     paciente_id INT NOT NULL,
     medico_id INT NOT NULL,
     fecha DATE NOT NULL,
     horario TIME NOT NULL,
+    INDEX(fecha),
     FOREIGN KEY (paciente_id) REFERENCES Pacientes(paciente_id) ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY (medico_id) REFERENCES Medicos(medico_id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
--- Datos iniciales para la tabla Pacientes
-INSERT INTO Pacientes (nombreyapellido, direccion, telefono, fecha_nacimiento) VALUES
-('Juan Pérez', 'Calle 123', '123456789', '1980-01-01'),
-('Ana Gómez', 'Avenida 456', '987654321', '1990-02-02'),
-('Luis Torres', 'Boulevard 789', '123123123', '1985-03-03'),
-('Maria Lopez', 'Calle Falsa 456', '321321321', '1992-04-04'),
-('Carlos Martínez', 'Calle Real 789', '654654654', '1988-05-05'),
-('Laura Garcia', 'Avenida Central 123', '789789789', '1995-06-06'),
-('Ricardo Rodriguez', 'Calle Sur 456', '456456456', '1983-07-07'),
-('Paula Fernandez', 'Calle Este 789', '789123456', '1991-08-08'),
-('Jorge Morales', 'Calle Norte 123', '456789123', '1989-09-09'),
-('Elena Ruiz', 'Calle Oeste 456', '321654987', '1993-10-10');
+-- Ingresar datos en la tabla Pacientes
+INSERT INTO Pacientes (paciente_id, pa_nombreyapellido, direccion, telefono, fecha_nacimiento)
+VALUES 
+(1, 'Juan Pérez', 'Calle Falsa 123', '123-456-789', '1985-01-15'),
+(2, 'María López', 'Avenida Siempreviva 742', '987-654-321', '1990-07-22'),
+(3, 'Pedro González', 'Boulevard Azul 300', '456-789-123', '1978-05-30'),
+(4, 'Laura Rodríguez', 'Camino Verde 4', '321-654-987', '1992-11-12'),
+(5, 'Carlos Fernández', 'Ruta 9 km 20', '789-123-456', '1983-06-08'),
+(6, 'Ana Torres', 'Pasaje Blanco 55', '654-321-789', '1995-03-05'),
+(7, 'Luis Ramírez', 'Calle 20 de Junio 10', '345-678-901', '1987-09-17'),
+(8, 'Marta García', 'Av. Belgrano 234', '876-543-210', '1991-12-25'),
+(9, 'Nicolás Martínez', 'Calle 3 de Febrero 43', '432-156-789', '1980-10-29'),
+(10, 'Elena Vázquez', 'Av. Rivadavia 1234', '543-210-876', '1989-04-22');
 
--- Datos iniciales para la tabla Medicos
-INSERT INTO Medicos (nombreyapellido, especialidad, telefono) VALUES
-('Dr. Juan Gonzalez', 'Cardiología', '123123123'),
-('Dra. Maria Martinez', 'Neurología', '234234234'),
-('Dr. Carlos Fernandez', 'Pediatría', '345345345'),
-('Dr. Luis Lopez', 'Ortopedia', '567567567'),
-('Dra. Ana Jimenez', 'Dermatología', '678678678'),
-('Dr. Pedro Sanchez', 'Psiquiatría', '789789789'),
-('Dra. Laura Castillo', 'Endocrinología', '890890890'),
-('Dr. Miguel Rojas', 'Oftalmología', '901901901'),
-('Dra. Sofia Suarez', 'Urología', '101101101');
+-- Ingresar datos en la tabla Medicos
+INSERT INTO Medicos (medico_id, me_nombreyapellido, especialidad, telefono)
+VALUES 
+(1, 'Dr. Ana Gómez', 'Cardiología', '112-233-445'),
+(2, 'Dr. Luis Martínez', 'Pediatría', '223-344-556'),
+(3, 'Dr. Elena Torres', 'Dermatología', '334-455-667'),
+(4, 'Dr. Juan Fernández', 'Neurología', '445-566-778'),
+(5, 'Dra. Sofía Sánchez', 'Oncología', '556-677-889'),
+(6, 'Dr. Pablo Pérez', 'Gastroenterología', '667-788-990'),
+(7, 'Dra. Laura Ramírez', 'Urología', '778-899-001'),
+(8, 'Dr. José García', 'Oftalmología', '889-900-112'),
+(9, 'Dra. Marta González', 'Psiquiatría', '990-001-223'),
+(10, 'Dr. Nicolás Rodríguez', 'Cirugía', '101-112-334');
 
-
--- Datos iniciales para la tabla Turnos
-INSERT INTO Turnos (paciente_id, medico_id, fecha, horario) VALUES
-(1, 1, '2024-11-10', '09:00:00'),
-(2, 2, '2024-11-11', '10:00:00'),
-(3, 3, '2024-11-12', '11:00:00'),
-(4, 4, '2024-11-13', '12:00:00'),
-(5, 5, '2024-11-14', '13:00:00'),
-(6, 6, '2024-11-15', '14:00:00'),
-(7, 7, '2024-11-16', '15:00:00'),
-(8, 8, '2024-11-17', '16:00:00'),
-(9, 9, '2024-11-18', '17:00:00'),
-(10, 10, '2024-11-19', '18:00:00');
+-- Ingresar datos en la tabla Turnos
+INSERT INTO Turnos (turno_id, paciente_id, medico_id, fecha, horario)
+VALUES
+(1, 1, 1, '2024-12-01', '08:00:00'),
+(2, 1, 2, '2024-12-02', '09:00:00'),
+(3, 1, 3, '2024-12-03', '10:00:00'),
+(4, 1, 4, '2024-12-04', '11:00:00'),
+(5, 1, 5, '2024-12-05', '12:00:00'),
+(6, 1, 6, '2024-12-06', '13:00:00'),
+(7, 1, 7, '2024-12-07', '14:00:00'),
+(8, 1, 8, '2024-12-08', '15:00:00'),
+(9, 1, 9, '2024-12-09', '16:00:00'),
+(10, 1, 10, '2024-12-10', '17:00:00'),
+(11, 2, 1, '2024-12-01', '08:30:00'),
+(12, 2, 2, '2024-12-02', '09:30:00'),
+(13, 2, 3, '2024-12-03', '10:30:00'),
+(14, 2, 4, '2024-12-04', '11:30:00'),
+(15, 2, 5, '2024-12-05', '12:30:00'),
+(16, 2, 6, '2024-12-06', '13:30:00'),
+(17, 2, 7, '2024-12-07', '14:30:00'),
+(18, 2, 8, '2024-12-08', '15:30:00'),
+(19, 2, 9, '2024-12-09', '16:30:00'),
+(20, 2, 10, '2024-12-10', '17:30:00'),
+(21, 3, 1, '2024-12-01', '09:00:00'),
+(22, 3, 2, '2024-12-02', '10:00:00'),
+(23, 3, 3, '2024-12-03', '11:00:00'),
+(24, 3, 4, '2024-12-04', '12:00:00'),
+(25, 3, 5, '2024-12-05', '13:00:00'),
+(26, 3, 6, '2024-12-06', '14:00:00'),
+(27, 3, 7, '2024-12-07', '15:00:00'),
+(28, 3, 8, '2024-12-08', '16:00:00'),
+(29, 3, 9, '2024-12-09', '17:00:00'),
+(30, 3, 10, '2024-12-10', '18:00:00'),
+(31, 4, 1, '2024-12-01', '09:30:00'),
+(32, 4, 2, '2024-12-02', '10:30:00'),
+(33, 4, 3, '2024-12-03', '11:30:00'),
+(34, 4, 4, '2024-12-04', '12:30:00'),
+(35, 4, 5, '2024-12-05', '13:30:00'),
+(36, 4, 6, '2024-12-06', '14:30:00'),
+(37, 4, 7, '2024-12-07', '15:30:00'),
+(38, 4, 8, '2024-12-08', '16:30:00'),
+(39, 4, 9, '2024-12-09', '17:30:00'),
+(40, 4, 10, '2024-12-10', '18:30:00'),
+(41, 5, 1, '2024-12-01', '10:00:00'),
+(42, 5, 2, '2024-12-02', '11:00:00'),
+(43, 5, 3, '2024-12-03', '12:00:00'),
+(44, 5, 4, '2024-12-04', '13:00:00'),
+(45, 5, 5, '2024-12-05', '14:00:00'),
+(46, 5, 6, '2024-12-06', '15:00:00'),
+(47, 5, 7, '2024-12-07', '16:00:00'),
+(48, 5, 8, '2024-12-08', '17:00:00'),
+(49, 5, 9, '2024-12-09', '18:00:00'),
+(50, 5, 10, '2024-12-10', '19:00:00'),
+(51, 6, 1, '2024-12-01', '10:30:00'),
+(52, 6, 2, '2024-12-02', '11:30:00'),
+(53, 6, 3, '2024-12-03', '12:30:00'),
+(54, 6, 4, '2024-12-04', '13:30:00'),
+(55, 6, 5, '2024-12-05', '14:30:00'),
+(56, 6, 6, '2024-12-06', '15:30:00'),
+(57, 6, 7, '2024-12-07', '16:30:00'),
+(58, 6, 8, '2024-12-08', '17:30:00'),
+(59, 6, 9, '2024-12-09', '18:30:00'),
+(60, 6, 10, '2024-12-10', '19:30:00'),
+(61, 7, 1, '2024-12-01', '11:00:00'),
+(62, 7, 2, '2024-12-02', '12:00:00'),
+(63, 7, 3, '2024-12-03', '13:00:00'),
+(64, 7, 4, '2024-12-04', '14:00:00'),
+(65, 7, 5, '2024-12-05', '15:00:00'),
+(66, 7, 6, '2024-12-06', '16:00:00'),
+(67, 7, 7, '2024-12-07', '17:00:00'),
+(68, 7, 8, '2024-12-08', '18:00:00'),
+(69, 7, 9, '2024-12-09', '19:00:00'),
+(70, 7, 10, '2024-12-10', '20:00:00'),
+(71, 8, 1, '2024-12-01', '11:30:00'),
+(72, 8, 2, '2024-12-02', '12:30:00'),
+(73, 8, 3, '2024-12-03', '13:30:00'),
+(74, 8, 4, '2024-12-04', '14:30:00'),
+(75, 8, 5, '2024-12-05', '15:30:00'),
+(76, 8, 6, '2024-12-06', '16:30:00'),
+(77, 8, 7, '2024-12-07', '17:30:00'),
+(78, 8, 8, '2024-12-08', '18:30:00'),
+(79, 8, 9, '2024-12-09', '19:30:00'),
+(80, 8, 10, '2024-12-10', '20:30:00'),
+(81, 9, 1, '2024-12-01', '12:00:00'),
+(82, 9, 2, '2024-12-02', '13:00:00'),
+(83, 9, 3, '2024-12-03', '14:00:00'),
+(84, 9, 4, '2024-12-04', '15:00:00'),
+(85, 9, 5, '2024-12-05', '16:00:00'),
+(86, 9, 6, '2024-12-06', '17:00:00'),
+(87, 9, 7, '2024-12-07', '18:00:00'),
+(88, 9, 8, '2024-12-08', '19:00:00'),
+(89, 9, 9, '2024-12-09', '20:00:00'),
+(90, 9, 10, '2024-12-10', '21:00:00'),
+(91, 10, 1, '2024-12-01', '12:30:00'),
+(92, 10, 2, '2024-12-02', '13:30:00'),
+(93, 10, 3, '2024-12-03', '14:30:00'),
+(94, 10, 4, '2024-12-04', '15:30:00'),
+(95, 10, 5, '2024-12-05', '16:30:00'),
+(96, 10, 6, '2024-12-06', '17:30:00'),
+(97, 10, 7, '2024-12-07', '18:30:00'),
+(98, 10, 8, '2024-12-08', '19:30:00'),
+(99, 10, 9, '2024-12-09', '20:30:00'),
+(100, 10, 10, '2024-12-10', '21:30:00');

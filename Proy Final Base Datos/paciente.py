@@ -2,18 +2,32 @@
 from conexion import BaseDeDatos
 
 class Paciente:
+    _ultimo_id_paciente = 0
     def __init__(self, db):
         self.db = db
 
-    def registrar_paciente(self, nombreyapellido, apellido, telefono, Fechadenacimiento, direccion):
-        query = "INSERT INTO pacientes (nombreyapellido, apellido, telefono, Fechadenacimiento, direccion) VALUES (%s, %s, %s, %s, %s)"
-        valores = (nombreyapellido, apellido, telefono, Fechadenacimiento, direccion)
+    @classmethod
+    def generar_siguiente_id(cls)->int:
+        cls._ultimo_id_paciente += 1
+        return cls._ultimo_id_paciente
+    @classmethod
+    def establecer_ultimo_id_paciente(cls, ultimo_id_paciente:int):
+        if not isinstance(ultimo_id_paciente, int) or ultimo_id_paciente < 0:
+            raise ValueError(f'El último id debe ser un entero positivo')
+        cls._ultimo_id_paciente = ultimo_id_paciente
+
+    @classmethod
+    def obtener_ultimo_id_paciente(cls)->int:
+        return cls._ultimo_id_paciente
+    def registrar_paciente(self, paciente_id, pa_nombreyapellido, telefono, Fechadenacimiento, direccion):
+        query = "INSERT INTO pacientes (pa_nombreyapellido, apellido, telefono, Fechadenacimiento, direccion) VALUES (%s, %s, %s, %s, %s)"
+        valores = (paciente_id, pa_nombreyapellido, telefono, Fechadenacimiento, direccion)
         self.db.ejecutar(query, valores)
         return "paciente registrado con éxito."
 
-    def actualizar_paciente(self, paciente_id, nombreyapellido, apellido, telefono, Fechadenacimiento, direccion):
-        query = "UPDATE pacientes SET nombreyapellido=%s, apellido=%s, telefono=%s, Fechadenacimiento=%s, direccion=%s WHERE paciente_id=%s"
-        valores = (nombreyapellido, apellido, telefono, Fechadenacimiento, direccion, paciente_id)
+    def actualizar_paciente(self, paciente_id, pa_nombreyapellido, apellido, telefono, Fechadenacimiento, direccion):
+        query = "UPDATE pacientes SET pa_nombreyapellido=%s, apellido=%s, telefono=%s, Fechadenacimiento=%s, direccion=%s WHERE paciente_id=%s"
+        valores = (pa_nombreyapellido, apellido, telefono, Fechadenacimiento, direccion, paciente_id)
         self.db.ejecutar(query, valores)
         return "paciente actualizado con éxito."
 
@@ -30,17 +44,17 @@ class Paciente:
         query = "SELECT * FROM pacientes"
         return self.db.obtener_datos(query)
         
-    def buscar_paciente_por_nombreyapellido(self, nombreyapellido, apellido):
-        query = "SELECT * FROM pacientes WHERE (nombreyapellido LIKE %s) AND (apellido LIKE %s)"
-        valores = (f"%{nombreyapellido}%", f"%{apellido}%")
+    def buscar_paciente_por_pa_nombreyapellido(self, pa_nombreyapellido):
+        query = "SELECT * FROM pacientes WHERE (pa_nombreyapellido LIKE %s)"
+        valores = (f"%{pa_nombreyapellido}%")
         return self.db.obtener_datos(query, valores)
     
-    def getnombreyapellido_paciente(self, nombreyapellido_apellido):
-        query = "SELECT nombreyapellido FROM pacientes WHERE nombreyapellido LIKE %s"
-        valores = (f"%{nombreyapellido_apellido}%")
+    def getpa_nombreyapellido_paciente(self, pa_nombreyapellido):
+        query = "SELECT pa_nombreyapellido FROM pacientes WHERE pa_nombreyapellido LIKE %s"
+        valores = (f"%{pa_nombreyapellido}%")
         return self.db.obtener_datos(query, valores)
     
-    def getIDpaciente(self, nombreyapellido):
-        query = "SELECT paciente_id FROM pacientes WHERE nombreyapellido = %s"
-        return self.db.obtener_datos(query, (nombreyapellido,))
+    def getIDpaciente(self, pa_nombreyapellido):
+        query = "SELECT paciente_id FROM pacientes WHERE pa_nombreyapellido = pa_nombreyapellido"
+        return self.db.obtener_datos(query, pa_nombreyapellido)
     
