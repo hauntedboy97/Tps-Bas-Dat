@@ -7,7 +7,6 @@ from conexion import BaseDeDatos
 
 # Conectar a la base de datos
 db = BaseDeDatos("localhost", "root", "1234", "GestionHospital")
-db.conectar()
 paciente_db = Paciente(db)
 medico_db = Medicos(db)
 turno_db = turno(db)
@@ -285,8 +284,8 @@ def mostrar_menu_principal():
             ventana.title("Programar turno")
 
             tk.Label(ventana, text="Nombre del paciente:").grid(row=0, column=0)
-            Nombre_entry = tk.Entry(ventana)
-            Nombre_entry.grid(row=0, column=1)
+            nombreyapellido_entry = tk.Entry(ventana)
+            nombreyapellido_entry.grid(row=0, column=1)
 
             tk.Label(ventana, text="Nombre del medico:").grid(row=1, column=0)
             NombreMedico_entry = tk.Entry(ventana)
@@ -301,10 +300,10 @@ def mostrar_menu_principal():
             hora_entry.grid(row=3, column=1)
 
             def programar_turno():
-                NombrePaciente = Nombre_entry.get()
-                IDPaciente = Paciente.getIDpaciente(NombrePaciente)
+                nombreyapellido = nombreyapellido_entry.get() 
+                IDPaciente = paciente_db.GetIDPaciente(nombreyapellido)
                 NombreMedico = NombreMedico_entry.get()
-                IDmedico = Medicos.getIDMedico(NombreMedico)
+                IDmedico = medico_db.GetIDMedico(NombreMedico)
                 fecha = fecha_entry.get()
                 hora = hora_entry.get()
 
@@ -492,8 +491,11 @@ def mostrar_menu_principal():
     btn_salir.pack()
     ventana.mainloop()
         
-# Cerrar conexión al final
-db.desconectar()
 
-if __name__ == "__main__":
-    mostrar_menu_principal()
+
+if __name__ == '__main__':
+    db = BaseDeDatos("localhost", "root", "1234", "GestionHospital")
+    db.conectar()  # Inicializa la conexión
+    pacientes = paciente_db.ver_pacientes()  # Usa la conexión activa
+    print(pacientes)
+    db.desconectar()  # Cierra la conexión al final

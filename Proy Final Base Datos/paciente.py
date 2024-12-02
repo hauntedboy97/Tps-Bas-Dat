@@ -1,6 +1,9 @@
 
 from conexion import BaseDeDatos
 
+db = BaseDeDatos("localhost", "root", "1234", "GestionHospital")
+
+
 class Paciente:
     _ultimo_id_paciente = 0
     def __init__(self, db):
@@ -54,7 +57,12 @@ class Paciente:
         valores = (f"%{pa_nombreyapellido}%")
         return self.db.obtener_datos(query, valores)
     
-    def getIDpaciente(self, pa_nombreyapellido):
-        query = "SELECT paciente_id FROM pacientes WHERE pa_nombreyapellido = pa_nombreyapellido"
-        return self.db.obtener_datos(query, pa_nombreyapellido)
+    def GetIDPaciente(self, nombreyapellido):
+        pacientes = BaseDeDatos.importar_tablas(self, sql_file="GestionHospital.sql")
+        id_paciente = 0
+        for paciente in pacientes:
+            if paciente[1] == nombreyapellido:
+                id_paciente = paciente[0]
+
+        return id_paciente
     

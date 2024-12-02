@@ -4,6 +4,8 @@ from medico import Medicos
 from conexion import BaseDeDatos
 from paciente import Paciente
 
+db = BaseDeDatos("localhost", "root", "1234", "GestionHospital")
+
 class turno:
     def __init__(self, db):
         self.db = db
@@ -40,9 +42,9 @@ class turno:
         valores = (f"%{nombre}%", f"%{apellido}%")
         return self.db.obtener_datos(query, valores)
     
-    def obtener_medico(self,):
+    def obtener_medico(self):
         datos_medicos = []
-        medicos = BaseDeDatos.importar_tablas()
+        medicos = BaseDeDatos.importar_tablas(self, sql_file="GestionHospital.sql")
         for medico in medicos:
             medico_obj = Medicos(medico)
             datos_medicos.append(medico_obj.ver_medico(medico[0]))
@@ -50,9 +52,9 @@ class turno:
         print (datos_medicos)
         return datos_medicos
     
-    def obtener_paciente(self,):
+    def obtener_paciente(self):
         datos_pacientes = []
-        pacientes = BaseDeDatos.importar_tablas()
+        pacientes = BaseDeDatos.importar_tablas(self, sql_file="GestionHospital.sql")
         for paciente in pacientes:
             paciente_obj = Paciente(paciente)
             datos_pacientes.append(paciente_obj.ver_paciente(paciente[0]))

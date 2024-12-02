@@ -1,6 +1,8 @@
 
 from conexion import BaseDeDatos
 
+db = BaseDeDatos("localhost", "root", "1234", "GestionHospital")
+
 class Medicos:
     _ultimo_id_medico = 0
     def __init__(self, db):
@@ -36,9 +38,14 @@ class Medicos:
         query = "SELECT * FROM Medicos WHERE Medico_id = %s"
         return self.db.obtener_datos(query, (medico_id,))
 
-    def getIDMedico(self, me_nombreyapellido):
-        query = "SELECT medico_id FROM Medicos WHERE me_nombreyapellido = %s"
-        return self.db.obtener_datos(query, (me_nombreyapellido))
+    def GetIDMedico(self, nombreyapellido):
+        medicos = BaseDeDatos.importar_tablas(self, sql_file = "GestionHospital.sql")
+        id_medico = 0
+        for medico in medicos:
+            if medico[1] == nombreyapellido:
+                id_medico = medico[0]
+
+        return id_medico
        
     def eliminar_Medico(self, medico_id):
         query = "DELETE FROM Medicos WHERE Medico_id = %s"

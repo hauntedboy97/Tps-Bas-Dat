@@ -12,8 +12,12 @@ class BaseDeDatos:
         self.cursor = None
 
     def conectar(self):
-        self.conexion = mysql.connector.connect(**self.config)
-        self.cursor = self.conexion.cursor()
+        try:
+            self.conexion = mysql.connector.connect(**self.config)
+            self.cursor = self.conexion.cursor()
+            print("Hola, conecté")
+        except mysql.connector.Error as error:
+            print("Error de conexión: ", error)
 
     def desconectar(self):
         if self.cursor:
@@ -99,8 +103,3 @@ class BaseDeDatos:
             turnos.append(turno)
         return turnos
     
-
-if __name__ == '__main__':
-    basededatos = BaseDeDatos.obtener_pacientes()
-
-    print (basededatos)
